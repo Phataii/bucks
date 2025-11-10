@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Reset Your Bucks Password</title>
+  </head>
+  <body style="font-family: Arial, sans-serif; background: #f5f9ff; color: #333;">
+    <div style="max-width: 500px; margin: 40px auto; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+      
+      <!-- Header with logo -->
+      <div style="background: linear-gradient(90deg, #0abcf9, #007bff); color: white; text-align: center; padding: 25px;">
+        <img 
+          src="https://drive.google.com/uc?export=view&id=1rFsmUe2E-X_9kZMyRAAC_27gzz8Dy_aw" 
+          alt="Bucks Logo" 
+          width="60" 
+          style="margin-bottom: 10px;" 
+        />
+
+        <h2 style="margin: 0;">Bucks: Borderless Banking</h2>
+      </div>
+
+      <!-- Body -->
+      <div style="padding: 30px; text-align: center;">
+        <p>Hi <strong><%= name %></strong>,</p>
+          <p>
+            There was a successful login attempt on your Bucks mobile account on 
+            <%= new Date().toLocaleString('en-US', { 
+                  timeZone: 'Africa/Lagos', 
+                  weekday: 'short', 
+                  year: 'numeric', 
+                  month: 'short', 
+                  day: 'numeric', 
+                  hour: '2-digit', 
+                  minute: '2-digit', 
+                  second: '2-digit', 
+                  hour12: true 
+                }) %>.
+          </p>
+          <p>
+            If you did not initiate this login, kindly login to your app and change your password and contact our <a href="mailto:hi@usebucks.co">support</a> team immediately.
+          </p><br/>
+
+        <p>DO NOT SHARE YOUR PASSWORD, TRANSACTION PIN OR OTP WITH ANYONE.</p>
+      </div>
+
+      <!-- Footer -->
+      <div style="background: #f1f5fb; padding: 15px; text-align: center; font-size: 12px; color: #777;">
+        © <%= new Date().getFullYear() %> Bucks. All rights reserved.
+      </div>
+    </div>
+  </body>
+</html>
