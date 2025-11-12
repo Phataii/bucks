@@ -20,6 +20,7 @@ export interface IAccount extends Document {
   personId?: string;
   provider?: string;
   accounts: IBankAccounts[];
+  pin: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -46,6 +47,7 @@ const accountSchema = new Schema<IAccount>(
     userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
     personId: { type: String },
     provider: { type: String },
+    pin: { type: String },
     accounts: { type: [accountDetailsSchema], default: [] },
   },
   {

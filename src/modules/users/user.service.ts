@@ -11,7 +11,7 @@ import { EmailService } from "../../utils/email-service";
 import { createEmailTemp } from "../common/interfaces/common.types";
 import EmailTemplate from "../../models/email-template.model";
 import GraphIntegration from "../graph-integration/graph";
-import { updatePerson } from "../graph-integration/interfaces/graph.interface";
+import { updatePerson, uploadDocuments } from "../graph-integration/interfaces/graph.interface";
 
 
 export default class UserService {
@@ -77,11 +77,11 @@ export default class UserService {
         const canProceed = await limitCalls(rateKey, 5, 60 * 60); // 5 per hour
 
         if (!canProceed) {
-        throw new BadRequestException('Too many requests. Please try again later');
+            throw new BadRequestException('Too many requests. Please try again later');
         }
 
         if (user.emailVerified) {
-        throw new BadRequestException('Email already verified');
+            throw new BadRequestException('Email already verified');
         }
 
         const otp = randomGen('numeric', 6);
@@ -213,12 +213,12 @@ export default class UserService {
             primaryPurpose: payload.primaryPurpose,
             sourceOfFunds: payload.sourceOfFunds,
             expectedMonthlyInflow: payload.expectedMonthlyInflow,
-            documents: payload.documents?.map((doc) => ({
-                type: doc.type,
-                url: doc.url,
-                issueDate: doc.issueDate,
-                expiryDate: doc.expiryDate,
-            })) || [],
+            // documents: payload.documents?.map((doc) => ({
+            //     type: doc.type,
+            //     url: doc.url,
+            //     issueDate: doc.issueDate,
+            //     expiryDate: doc.expiryDate,
+            // })) || [],
         };
         const response = await this.graphApi.updatePerson(graphPayload, user.personId);
 
@@ -228,7 +228,22 @@ export default class UserService {
         };
     }
 
+    uploadDocuments = async (userId: string, payload: uploadDocuments) => {
+        const user = await User.findOne({ _id: userId }).lean();
+        if(!user || !user.personId) throw new NotFoundException("user not found");
 
+        const graphPayload = {
+                type: payload.type,
+                url: payload.url,
+                issueDate: payload.issueDate,
+                expiryDate: payload.expiryDate,
+            }
+        const response = await this.graphApi.uploadDocument(user.personId, graphPayload);
+        return {
+            message: "User has been updated",
+            data: response
+        };
+    }
 
     ////////
     // EMAIL TEMPLATE

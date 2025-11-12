@@ -4,7 +4,6 @@ import { asyncHandler } from "../../utils/async-handler";
 import WalletService from "./wallet.service";
 
 
-
 export default class WalletController {
     private walletService: WalletService;
 
@@ -12,8 +11,18 @@ export default class WalletController {
         this.walletService = new WalletService();
     }
 
-    createWallet = asyncHandler(async (req: Request, res: Response) =>{
-        const result = await this.walletService.createWallet(req.auth.userId, req.body);
+    requestNGNAccount = asyncHandler(async (req: Request, res: Response) =>{
+        const result = await this.walletService.requestAccount_NGN(req.auth.userId, req.body);
+        res.status(201).json(result);
+    })
+
+    createPin = asyncHandler(async (req: Request, res: Response) =>{
+        const result = await this.walletService.createPin(req.auth.userId, req.body.pin);
+        res.status(201).json(result);
+    })
+
+    changePin = asyncHandler(async (req: Request, res: Response) =>{
+        const result = await this.walletService.changePin(req.auth.userId, req.body);
         res.status(201).json(result);
     })
 
@@ -22,7 +31,7 @@ export default class WalletController {
         res.status(201).json(result);
     })
 
-
+    
     handleGraphWebhook = asyncHandler(async (req: Request, res: Response) => {
         // Acknowledge receipt quickly
         res.status(200).send("ok");

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { expressjwt } from "express-jwt";
 import { BadRequestException } from "../utils/service-exceptions";
+import User from "../models/user.model";
 
 export const jwtGuard = (params: { credentialsRequired: boolean}) => expressjwt({
   secret: process.env.JWT_SECRET!,
@@ -12,14 +13,14 @@ export const jwtGuard = (params: { credentialsRequired: boolean}) => expressjwt(
 
 export default async function isSuperAdmin(req: Request, res: Response, next: NextFunction) {
   // Check if auth exists and has userId
-  // if (!req.auth || !req.auth.userId) {
-  //   return res.status(401).json({ message: 'Authentication required' });
-  // }
+  if (!req.auth || !req.auth.userId) {
+    return res.status(401).json({ message: 'Authentication required' });
+  }
 
-  // req.user = { userId: "" };
+  const userId = req.auth.userId;
 
   try {
-    // const user = await User.findOne({ where: { id: userId } });
+    const user = await User.findOne({ where: { id: userId } });
 
     // if (!user || user.userLevel !== UserLevel.Admin) {
     //   return res.status(403).json({ message: 'Unauthorized: Only super admins can perform this action' });

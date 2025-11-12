@@ -1,6 +1,6 @@
 import axios from "axios";
 import Logger from "../../utils/logger";
-import { createPerson, createWallet, updatePerson } from "./interfaces/graph.interface";
+import { createPerson, createWallet, updatePerson, uploadDocuments } from "./interfaces/graph.interface";
 
 
 
@@ -69,15 +69,8 @@ export default class GraphIntegration {
                     primary_purpose: payload.primaryPurpose,
                     source_of_funds: payload.sourceOfFunds,
                     expected_monthly_inflow: payload.expectedMonthlyInflow
-                },
-                documents: payload.documents?.map((doc) => ({
-                type: doc.type,
-                url: doc.url,
-                issue_date: doc.issueDate,
-                expiry_date: doc.expiryDate,
-            })) || [],
+                }
             }
-            console.log(body)
             try {
                 const response = await axios.patch(url, body, {
                     headers: {
@@ -100,7 +93,40 @@ export default class GraphIntegration {
             }
     };
 
-    createAccount = async (payload: createWallet) => {
+    uploadDocument = async (personId: string, payload: uploadDocuments) => {
+        const url = `${process.env.GRAPH_BASE_URL}/entity_document`;
+        const body = {
+            entity_type: payload.type,
+            // person_id: paylo"",
+            business_id: "",
+            type: "",
+            url: "",
+            issuance_date: "",
+            expiry_date: ""
+        }
+
+        try{
+            const response = await axios.post(url, body, {
+                headers: {
+                    Authorization: `Bearer ${process.env.GRAPH_API_KEY}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+            return { 
+                    message: "Transaction Successful",
+                    data: response.data 
+            };
+        }
+        catch (err) {
+            const message = axios.isAxiosError(err)
+                ? err.response?.data?.message || err.message
+                : (err as Error).message;
+
+            this.logger.error("Graph API Error:", message);
+            throw new Error(message);
+        }
+    }
+    requestAccount = async (payload: createWallet) => {
         const url = `${process.env.GRAPH_BASE_URL}/bank_account`;
         const body = {
             person_id: payload.personId,

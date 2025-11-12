@@ -42,10 +42,9 @@ export interface updatePerson {
     primaryPurpose: string;
     sourceOfFunds: string;
     expectedMonthlyInflow: number;
-    documents?: documents[]
 }
 
-export interface documents {
+export interface uploadDocuments {
     type: string;
     url: string;
     issueDate: string;
