@@ -45,6 +45,7 @@ export interface updatePerson {
 }
 
 export interface uploadDocuments {
+    entityType: string; // person or business
     type: string;
     url: string;
     issueDate: string;

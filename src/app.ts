@@ -10,8 +10,8 @@ const app = express();
 // Configure CORS first, before helmet
 const corsOptions = {
   origin: [
-    'https://app.suprsync.com', // production
-    'https://staging.suprsync.com', // staging
+    'https://app.bucks.com', // production
+    'https://staging.bucks.com', // staging
     'http://localhost:3000', // local dev
   ],
   credentials: true, // Required for sending Authorization headers
@@ -30,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(modules);
 
 app.get("/", (_req, res) => {
-  res.send("Buck Sandbox API is running...");
+  res.send("Bucks Sandbox API is running...");
 });
 
 app.use((_req, res, _next) => {

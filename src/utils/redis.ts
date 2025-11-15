@@ -2,10 +2,10 @@ import { createClient } from 'redis';
 import Logger from './logger';
 
 const logger = new Logger('redis-client');
-
 const options = {
-  url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+  url: process.env.REDIS_URL || 'redis://localhost:6379',
 };
+
 
 const redisClient = createClient(options);
 

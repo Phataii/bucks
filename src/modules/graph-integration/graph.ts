@@ -96,13 +96,13 @@ export default class GraphIntegration {
     uploadDocument = async (personId: string, payload: uploadDocuments) => {
         const url = `${process.env.GRAPH_BASE_URL}/entity_document`;
         const body = {
-            entity_type: payload.type,
-            // person_id: paylo"",
+            entity_type: payload.entityType,
+            person_id: personId || "",
             business_id: "",
-            type: "",
-            url: "",
-            issuance_date: "",
-            expiry_date: ""
+            type: payload.type,
+            url: payload.url,
+            issuance_date: payload.issueDate,
+            expiry_date: payload.expiryDate
         }
 
         try{

@@ -233,6 +233,7 @@ export default class UserService {
         if(!user || !user.personId) throw new NotFoundException("user not found");
 
         const graphPayload = {
+                entityType: payload.entityType,
                 type: payload.type,
                 url: payload.url,
                 issueDate: payload.issueDate,
