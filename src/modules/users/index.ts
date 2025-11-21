@@ -15,6 +15,7 @@ router.post('/users/reset-password', controller.resetPassword)
 router.get('/users/me', controller.profile)
 router.put('/users/update-graph-person', controller.updateGraphPerson)
 router.put('/users/update-graph-documents', controller.updateGraphDocument)
+router.post('/users/set-relogin-pin', controller.reloginPin)
 
 router.post('/users/email-template/create', controller.createEmailTemplate)
 export default router;

@@ -54,6 +54,11 @@ export default class UserController {
     const result = await this.userService.uploadDocuments(req.auth.userId, req.body);
     res.status(200).json(result);
   })
+
+  reloginPin = asyncHandler(async (req: Request, res: Response) => {
+    const result = await this.userService.createReloginPin(req.auth.userId, req.body.pin);
+    res.status(201).json(result);
+  })
   ////////
   /////
   // EMAIL TEMPLATE

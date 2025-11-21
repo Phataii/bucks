@@ -12,22 +12,27 @@ export default class WalletController {
     }
 
     requestNGNAccount = asyncHandler(async (req: Request, res: Response) =>{
-        const result = await this.walletService.requestAccount_NGN(req.auth.userId, req.body);
+        const result = await this.walletService.requestAccount(req.auth.userId, req.body);
         res.status(201).json(result);
     })
 
-    createPin = asyncHandler(async (req: Request, res: Response) =>{
-        const result = await this.walletService.createPin(req.auth.userId, req.body.pin);
+    createTransactionPin = asyncHandler(async (req: Request, res: Response) =>{
+        const result = await this.walletService.createTransactionPin(req.auth.userId, req.body.pin);
         res.status(201).json(result);
     })
 
-    changePin = asyncHandler(async (req: Request, res: Response) =>{
-        const result = await this.walletService.changePin(req.auth.userId, req.body);
-        res.status(201).json(result);
+    changeTransactionPin = asyncHandler(async (req: Request, res: Response) =>{
+        const result = await this.walletService.changeTransactionPin(req.auth.userId, req.body);
+        res.status(200).json(result);
     })
 
-    getAccount = asyncHandler(async (req: Request, res: Response) =>{
-        const result = await this.walletService.getAccount();
+    getAccountDetails = asyncHandler(async (req: Request, res: Response) =>{
+        const result = await this.walletService.getAccountDetails(req.auth.userId, req.params.currencyId);
+        res.status(200).json(result);
+    })
+
+    getCurrencies = asyncHandler(async (req: Request, res: Response) =>{
+        const result = await this.walletService.getActiveCurrencies();
         res.status(201).json(result);
     })
 

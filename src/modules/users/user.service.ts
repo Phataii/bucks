@@ -12,6 +12,7 @@ import { createEmailTemp } from "../common/interfaces/common.types";
 import EmailTemplate from "../../models/email-template.model";
 import GraphIntegration from "../graph-integration/graph";
 import { updatePerson, uploadDocuments } from "../graph-integration/interfaces/graph.interface";
+import mongoose from "mongoose";
 
 
 export default class UserService {
@@ -180,6 +181,29 @@ export default class UserService {
 
         return { message: "Password reset successfully" };
     };
+
+    async createReloginPin(userId: string, pin: string) {
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        try {
+            const user = await User.findById(userId).session(session);
+            if (!user) throw new NotFoundException("User not found");
+
+            const hashedPin = await bcrypt.hash(pin, 10);
+            user.reloginPin = hashedPin;
+            await user.save({ session });
+
+            await session.commitTransaction();
+            session.endSession();
+
+            return { message: "Re-Login pin set successfully" };
+        } catch (err) {
+            await session.abortTransaction();
+            session.endSession();
+            throw err;
+        }
+    }
 
     logout = async () => {
 

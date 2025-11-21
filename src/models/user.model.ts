@@ -23,6 +23,7 @@ export interface IUser extends Document {
   dob: string;
   email: string;
   password: string;
+  reloginPin: string;
   phone: string;
   address: IAddress;
   personId: string;  //Gotten from graph
@@ -66,6 +67,7 @@ const userSchema = new Schema<IUser>({
   dob: { type: String, required: true },
   email: { type: String, required: true, unique: true, lowercase: true },
   password: { type: String, required: true, minlength: 6 },
+  reloginPin: { type: String, required: false, minlength: 6 },
   phone: { type: String, required: true },
   address: {
     address: { type: String, required: true },
