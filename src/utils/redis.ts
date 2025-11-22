@@ -3,7 +3,7 @@ import Logger from './logger';
 
 const logger = new Logger('redis-client');
 const options = {
-  url: process.env.REDIS_URL || 'redis://localhost:6379',
+  url: process.env.REDIS_URL || 'redis://default:4qfDZQGXNWMbdPIPoqK2z3eqhi3Gmj0g@redis-12301.c14.us-east-1-3.ec2.cloud.redislabs.com:12301',
 };
 
 
